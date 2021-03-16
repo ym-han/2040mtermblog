@@ -196,14 +196,15 @@ window.onload = wrap_img;
 
 <p>The architecture of an Inception v3 network is progressively built, step-by-step, as follows:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Factorized convolutions to reduce parameters
-2. Smaller convolutions
-3. Asymmetric convolution
-4. Auxiliary classifier: an auxiliary classifier is a small CNN inserted between layers during training, and the loss incurred is added to the main network loss
-5. Grid size reduction
-</code></pre></div></div>
+<ol>
+  <li>Factorized convolutions to reduce parameters</li>
+  <li>Smaller convolutions</li>
+  <li>Asymmetric convolution</li>
+  <li>Auxiliary classifier: an auxiliary classifier is a small CNN inserted between layers during training, and the loss incurred is added to the main network loss</li>
+  <li>Grid size reduction</li>
+</ol>
 
-<p>For the head of the model we added a dropout layer and a dense softmax layer with 5 neurons.  The optimizer used was SGD and loss was CategoricalCrossEntropy with 0.2 label smoothing. The label smoothing is because there is some amount of mislabelling in the dataset. The base notebook we used also used Xception for the base model, however since there were very small differences in the validation accuracy and loss, we chose to keep Inception-v3 as our 3rd model.</p>
+<p>For the head of the model we added a dropout layer and a dense softmax layer with 5 neurons. The optimizer used was SGD and loss was CategoricalCrossEntropy with 0.2 label smoothing. The label smoothing is because there is some amount of mislabelling in the dataset. The base notebook we used also used Xception for the base model, however since there were very small differences in the validation accuracy and loss, we chose to keep Inception-v3 as our 3rd model.</p>
 
 <p>We tried training with multiple epochs but there was no significant increase in val. accuracy after 8 epochs (as in the original notebook) and since every epoch took upwards of 10 minutes for us, in the interest of time we kept it at 8.</p>
 
