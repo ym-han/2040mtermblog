@@ -103,6 +103,8 @@ window.onload = wrap_img;
 </li>
 <li class="toc-entry toc-h1"><a href="#efficientnet-model">EfficientNet model</a>
 <ul>
+<li class="toc-entry toc-h2"><a href="#efficientnet-architecture">EfficientNet architecture</a></li>
+<li class="toc-entry toc-h2"><a href="#what-we-did">What we did</a></li>
 <li class="toc-entry toc-h2"><a href="#resources--references">Resources / references</a></li>
 </ul>
 </li>
@@ -113,7 +115,7 @@ window.onload = wrap_img;
 </ul>
 </li>
 <li class="toc-entry toc-h1"><a href="#conclusion">Conclusion</a></li>
-</ul><p>This is the second of the blog posts for our midterm project in Data 2040, a deep learning class at Brown University. As quick reminder, the first blog post <a href="https://emmanuel-peters.medium.com/blog-post-1-cassava-leaf-distribution-c6c3232be9d5">can be accessed here</a></p>
+</ul><p>This is the second of the blog posts for our midterm project in Data 2040, a deep learning class at Brown University. As quick reminder, the first blog post <a href="https://emmanuel-peters.medium.com/blog-post-1-cassava-leaf-distribution-c6c3232be9d5">can be accessed here.</a></p>
 
 <p>We explored 3 architectures for this prediction task: ResNET, InceptionNet, and EfficientNet. As we’ll see, the EfficientNet model ended up having the highest accuracy.</p>
 
@@ -155,7 +157,15 @@ window.onload = wrap_img;
 <h1 id="efficientnet-model">
 <a class="anchor" href="#efficientnet-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>EfficientNet model</h1>
 
-<p>The second architecture we tried was EfficientNet, <a href="https://www.kaggle.com/bununtadiresmenmor/starter-keras-efficientnet">via this notebook</a>. EfficientNet uses the compound-scaling(balancing dimensions of the width, depth, and resolution by scaling up them with a constant ratio) method to heuristic scale-up convolution neural networks <a href="https://arxiv.org/pdf/1905.11946.pdf">(Tan and Le, 2019)</a> to avoid computational expensive grid-search of hyperparameter. There is a family of EfficientNet models that makes up a good combination of efficiency and accuracy on various scales. Keras API provides pre-trained EfficientNet models with different variants from B0 to B7. The input shape is different for each of these variants.</p>
+<p>The second architecture we tried was EfficientNet, <a href="https://www.kaggle.com/bununtadiresmenmor/starter-keras-efficientnet">via this notebook</a>.</p>
+
+<h2 id="efficientnet-architecture">
+<a class="anchor" href="#efficientnet-architecture" aria-hidden="true"><span class="octicon octicon-link"></span></a>EfficientNet architecture</h2>
+
+<p>EfficientNet uses the compound-scaling(balancing dimensions of the width, depth, and resolution by scaling up them with a constant ratio) method to heuristic scale-up convolution neural networks <a href="https://arxiv.org/pdf/1905.11946.pdf">(Tan and Le, 2019)</a> to avoid computational expensive grid-search of hyperparameter. There is a family of EfficientNet models that makes up a good combination of efficiency and accuracy on various scales. Keras API provides pre-trained EfficientNet models with different variants from B0 to B7. The input shape is different for each of these variants.</p>
+
+<h2 id="what-we-did">
+<a class="anchor" href="#what-we-did" aria-hidden="true"><span class="octicon octicon-link"></span></a>What we did</h2>
 
 <p>We implemented the pre-trained EfficientNetB3 model based on the input image resolution. On top of the pre-trained EfficientNetB3 model, we first did global average pooling. Then we added a dense layer with 256 neurons, with an activation function of Relu, followed by a dropout layer with a dropout rate of 0.5. Finally a dense output layer with softmax activation function with 5 neurons. The model architecture looks like this:</p>
 
@@ -195,7 +205,7 @@ window.onload = wrap_img;
 
 <p>For the head of the model we added a dropout layer and a dense softmax layer with 5 neurons.  The optimizer used was SGD and loss was CategoricalCrossEntropy with 0.2 label smoothing. The label smoothing is because there is some amount of mislabelling in the dataset. The base notebook we used also used Xception for the base model, however since there were very small differences in the validation accuracy and loss, we chose to keep Inception-v3 as our 3rd model.</p>
 
-<p>We tried training with multiple epochs but there was no significant increase in val. Accuracy after epochs = 8 (as in the original notebook) and since every epoch took upwards of 10 minutes for us, in the interest of time we kept it at 8.</p>
+<p>We tried training with multiple epochs but there was no significant increase in val. accuracy after 8 epochs (as in the original notebook) and since every epoch took upwards of 10 minutes for us, in the interest of time we kept it at 8.</p>
 
 <h2 id="resources--references-1">
 <a class="anchor" href="#resources--references-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Resources / references</h2>
