@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Cassava leaf disease classification ensemble models (Post 3 of 3) | λ</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Cassava leaf disease classification ensemble models (Post 3 of 3)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Team λ’s 2nd midterm project blog post" />
+<meta property="og:description" content="Team λ’s 2nd midterm project blog post" />
+<link rel="canonical" href="https://ym-han.github.io/2040mtermblog/markdown/2020/03/21/post3.html" />
+<meta property="og:url" content="https://ym-han.github.io/2040mtermblog/markdown/2020/03/21/post3.html" />
+<meta property="og:site_name" content="λ" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-21T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://ym-han.github.io/2040mtermblog/markdown/2020/03/21/post3.html","@type":"BlogPosting","headline":"Cassava leaf disease classification ensemble models (Post 3 of 3)","dateModified":"2020-03-21T00:00:00-05:00","datePublished":"2020-03-21T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ym-han.github.io/2040mtermblog/markdown/2020/03/21/post3.html"},"description":"Team λ’s 2nd midterm project blog post","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/2040mtermblog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ym-han.github.io/2040mtermblog/feed.xml" title="λ" /><link rel="shortcut icon" type="image/x-icon" href="/2040mtermblog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/2040mtermblog/">λ</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/2040mtermblog/about/">About Us</a><a class="page-link" href="/2040mtermblog/search/">Search</a><a class="page-link" href="/2040mtermblog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Cassava leaf disease classification ensemble models (Post 3 of 3)</h1><p class="page-description">Team λ's 2nd midterm project blog post</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-03-21T00:00:00-05:00" itemprop="datePublished">
+        Mar 21, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/2040mtermblog/categories/#markdown">markdown</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#cassava-leaf-disease-classification-ensemble-models">Cassava leaf disease classification ensemble models</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#approach-1">Approach 1</a></li>
+<li class="toc-entry toc-h3"><a href="#approach-2">Approach 2</a></li>
+<li class="toc-entry toc-h3"><a href="#approach-3">Approach 3</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#some-plots--figures-for-inceptionresnetv2">Some plots / figures for InceptionResnetv2</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#confusion-matrix-for-inceptionresnet">Confusion matrix for InceptionResNet</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#approach-4">Approach 4</a></li>
+<li class="toc-entry toc-h2"><a href="#resourcescitations">Resources/Citations</a></li>
+</ul>
+</li>
+</ul><h1 id="cassava-leaf-disease-classification-ensemble-models">
+<a class="anchor" href="#cassava-leaf-disease-classification-ensemble-models" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cassava leaf disease classification ensemble models</h1>
+
+<p>By Peipei Li, Emmanuel Peters, Yongming Han</p>
+
+<p>This is the final blog post of our data2040 midterm group project on cassava leaf disease classification.</p>
+
+<p>Here are the links to the previous posts:</p>
+
+<blockquote>
+  <p>Initial blog post
+https://emmanuel-peters.medium.com/blog-post-1-cassava-leaf-distribution-c6c3232be9d5</p>
+</blockquote>
+
+<blockquote>
+  <p>Midway blog post
+https://ym-han.github.io/2040mtermblog/markdown/2020/03/15/post2.html</p>
+</blockquote>
+
+<p>We previously tried three different models, includes ResNet, EfficientNet, InceptionNet. In the final model, we decided to try to ensemble those three models in a variety of ways to see if we could make better predictions of the leaf disease classification.</p>
+
+<p>Now, given how imbalanced the data was, a natural question is: how did we construct the validation set? In particuconstructlar, what was the <em>distribution</em> of data sets that we used to train and validate our models?</p>
+
+<p>One way to do this, of course, is to manually construct a more balanced dataset. We didn’t end up doing this, though it’s at the top of the list of Things We Would Do Had We More Time. Instead, we simply used the distribution of the test set on Kaggle as the distribution of our validation set (this turned out to be more or less what you’d get with by randomly sampling the data, so it was no work at all).</p>
+
+<p><img src="https://i.imgur.com/kqNVABa.png%20Distribution%20of%20test%20set" alt=""></p>
+
+<p><img src="/2040mtermblog/images/second_post/loss_accs_firstmodel.png" alt="" title="Losses and validation accuracies for the model, before and after adding these augmentations"></p>
+
+<p>How did we get the distribution of the test set? We did by submitting a constant classifier for each of the classes. That is, for each class, we submitted a notebook that predicted that class on all of the inputs. The accuracy of that classifier will in effect be the prevalence of the class in the test data. And since Kaggle helpfully tells us how accurate submitted notebooks are, we can recover the distribution of the test data by submitting a constant classifier for each of the five classes.</p>
+
+<blockquote>
+  <p>“In statistics and machine learning, ensemble methods use multiple learning algorithms to obtain better predictive performance than could be obtained from any of the constituent learning algorithms alone. Unlike a statistical ensemble in statistical mechanics, which is usually infinite, a machine learning ensemble consists of only a concrete finite set of alternative models, but typically allows for much more flexible structure to exist among those alternatives.”</p>
+</blockquote>
+
+<p>https://en.wikipedia.org/wiki/Ensemble_learning</p>
+
+<p>For our final model we tried various approaches to ensemble the models we trained for our Midway blog post.</p>
+
+<h3 id="approach-1">
+<a class="anchor" href="#approach-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Approach 1</h3>
+
+<p>We started by first doing a simple average of our three models (ResNet50, Inception, EfficientNet) we talked about during our midterm blogpost, this gave us an accuracy score of 80%. This rather low score is probably because our first model (ResNet50) had not been tuned properly. To combat this, there were two approaches:</p>
+
+<ol>
+  <li>
+    <p>Tune the ResNet50 and retrain it.</p>
+  </li>
+  <li>
+    <p>Use a weighted average with a lower weight on ResNet50
+We decided on starting with 2. so we looped over a grid of weights, and improved performance on the validation set to ~86%.</p>
+  </li>
+</ol>
+
+<p>The second approach we did was to try ensembling different combination of two out of three of our pre-trained models. Specifically, we tried the combination of ResNet and InceptionNet, EfficientNet and InceptionNet, and ResNet and EfficientNet. For this, all we had to change was the grid to include 0 and only print cases where two networks had non zero weights. It should be noted that on certain samplings of the validation set we had single networks performing better than any combination including them, but on average we got higher performance for combinations of two or more.</p>
+
+<p>We got the highest weighted average of combination for InceptionNet and EfficientNet for an accuracy of 85.6/86%.</p>
+
+<h3 id="approach-2">
+<a class="anchor" href="#approach-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Approach 2</h3>
+
+<p>Instead of using a simple average on the weights outputted by the softmax of the different CNNs, the second approach was to use stacking. To do this we needed to make sure the input tensors to the CNNs were similar and thus we had to retrain the models and make sure they fit a singular workflow. So, we focussed on a better tuned ResNet50 and Inception (we made this choice despite the higher accuracy score of EfficientNet because we had to retune ResNet50 anyway and Inception was the most computationally efficient network out of the 3).</p>
+
+<p>For stacking, we take the outputs of two different networks and use them as an input to an “ensemble” network.</p>
+
+<p>It can be argued that all ensembling is a form of stacking. The highest accuracy score we got for this was also ~84%.</p>
+
+<h3 id="approach-3">
+<a class="anchor" href="#approach-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Approach 3</h3>
+
+<p>While looking for documentation for InceptionNet we came across this blogpost https://ai.googleblog.com/2016/08/improving-inception-and-image.html. Which talks about a stack of InceptionNetV3 with various Residual blocks from ResNet. We used this as our third ensemble. It trained faster than Approach 2, and gave us higher validation accuracy on most random seeds and validation subsets.
+Stacking resnet and inception (done by google)- ResnetInceptionV2. ~85%</p>
+
+<h4 id="some-plots--figures-for-inceptionresnetv2">
+<a class="anchor" href="#some-plots--figures-for-inceptionresnetv2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Some plots / figures for InceptionResnetv2</h4>
+
+<!-- Loss and accuracy curves for InceptionResnetv2-->
+<p><img src="https://i.imgur.com/5dsPaKZ.png" alt="" title="Loss and accuracy curves for InceptionResnetv2"></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Classification Report for InceptionResNet
+              precision    recall  f1-score   support
+
+           0       0.48      0.34      0.40       200
+           1       0.73      0.75      0.74       436
+           2       0.78      0.66      0.72       495
+           3       0.95      0.94      0.95      2638
+           4       0.59      0.74      0.66       510
+
+    accuracy                           0.84      4279
+   macro avg       0.71      0.69      0.69      4279
+weighted avg       0.84      0.84      0.84      4279
+</code></pre></div></div>
+
+<h5 id="confusion-matrix-for-inceptionresnet">
+<a class="anchor" href="#confusion-matrix-for-inceptionresnet" aria-hidden="true"><span class="octicon octicon-link"></span></a>Confusion matrix for InceptionResNet</h5>
+<p><img src="https://i.imgur.com/dQk847d.png" alt="" title="Confusion matrix for InceptionResNet"></p>
+
+<h3 id="approach-4">
+<a class="anchor" href="#approach-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Approach 4</h3>
+
+<p>We finally come to our best model where we used a weighted average on the Approach 3 stack with EfficientNetB3.</p>
+
+<p>This gave us the highest validation accuracy at ~87% with our pretrained models. So we decided to spend some time changing the hyperparameters and improving the individual CNNs. Unfortunately, in the interest of time, we had to keep the number of epochs low and thus never hit our early stopping callbacks. This was true even when patience value was set to &lt;5. We also added label smoothing to InceptionResNetV2 and reduced level of label smoothing in EfficientNet.</p>
+
+<p>Our final Validation accuracy score was ~89%.</p>
+
+<h2 id="resourcescitations">
+<a class="anchor" href="#resourcescitations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Resources/Citations</h2>
+
+<ul>
+  <li>Improving Inception and Image Classification in TensorFlow. (2016, August 31). https://ai.googleblog.com/2016/08/improving-inception-and-image.html</li>
+  <li>Szegedy, C., Ioffe, S., Vanhoucke, V., &amp; Alemi, A. (2017). Inception-v4, Inception-ResNet and the Impact of Residual Connections on Learning. Proceedings of the AAAI Conference on Artificial Intelligence, 31(1). Retrieved from https://ojs.aaai.org/index.php/AAAI/article/view/11231</li>
+  <li>https://www.kaggle.com/junyingsg/end-to-end-cassava-disease-classification-in-keras</li>
+  <li>https://www.kaggle.com/iamyajat/cassava-leaf-disease-inceptionresnetv2</li>
+  <li>https://www.kaggle.com/danpotter/blind-monkey-submission-example-data2040-sp21/data?select=submission.csv</li>
+  <li>Maxim Mikhaylov. (2017, December 13). Ensembling ConvNets using Keras  https://towardsdatascience.com/ensembling-convnets-using-keras-237d429157eb</li>
+  <li>Adrian Rosebrock Deep Learning for Computer Vision with Python – Practitioner Bundle</li>
+</ul>
+
+
+  </div><a class="u-url" href="/2040mtermblog/markdown/2020/03/21/post3.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/2040mtermblog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/2040mtermblog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/2040mtermblog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Midterm Project Blog for Data2040</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
