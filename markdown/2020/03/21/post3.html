@@ -93,7 +93,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      5 min read
+      6 min read
     
 </span></p>
 
@@ -148,7 +148,7 @@ https://ym-han.github.io/2040mtermblog/markdown/2020/03/15/post2.html</p>
 
 <p>We previously tried three different models, includes ResNet, EfficientNet, InceptionNet. In the final model, we decided to try to ensemble those three models in a variety of ways to see if we could make better predictions of the leaf disease classification.</p>
 
-<p>Now, given how imbalanced the data was, a natural question is: how did we construct the validation set? In particuconstructlar, what was the <em>distribution</em> of data sets that we used to train and validate our models?</p>
+<p>Now, given how imbalanced the data was, a natural question is: how did we construct the validation set? In particular, what was the <em>distribution</em> of data sets that we used to train and validate our models?</p>
 
 <p>One way to do this, of course, is to manually construct a more balanced dataset. We didn’t end up doing this, though it’s at the top of the list of Things We Would Do Had We More Time. Instead, we simply used the distribution of the test set on Kaggle as the distribution of our validation set (this turned out to be more or less what you’d get with by randomly sampling the data, so it was no work at all).</p>
 
@@ -169,7 +169,9 @@ https://ym-han.github.io/2040mtermblog/markdown/2020/03/15/post2.html</p>
 <h3 id="approach-1">
 <a class="anchor" href="#approach-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Approach 1</h3>
 
-<p>We started by first doing a simple average of our three models (ResNet50, Inception, EfficientNet) we talked about during our midterm blogpost, this gave us an accuracy score of 80%. This rather low score is probably because our first model (ResNet50) had not been tuned properly. To combat this, there were two approaches:</p>
+<p><img src="https://i.imgur.com/5QMiMpI.jpg" alt=""></p>
+
+<p>We started by doing a simple average of our three models (ResNet50, Inception, EfficientNet) we talked about during our midterm blogpost, this gave us an accuracy score of 80%. This rather low score is probably because our first model (ResNet50) had not been tuned properly. To combat this, there were two approaches:</p>
 
 <ol>
   <li>
@@ -187,6 +189,8 @@ We decided on starting with 2. so we looped over a grid of weights, and improved
 
 <h3 id="approach-2">
 <a class="anchor" href="#approach-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Approach 2</h3>
+
+<p><img src="https://i.imgur.com/3KgfbJg.jpg" alt=""></p>
 
 <p>Instead of using a simple average on the weights outputted by the softmax of the different CNNs, the second approach was to use stacking. To do this we needed to make sure the input tensors to the CNNs were similar and thus we had to retrain the models and make sure they fit a singular workflow. So, we focussed on a better tuned ResNet50 and Inception (we made this choice despite the higher accuracy score of EfficientNet because we had to retune ResNet50 anyway and Inception was the most computationally efficient network out of the 3).</p>
 
@@ -223,6 +227,16 @@ weighted avg       0.84      0.84      0.84      4279
 <h5 id="confusion-matrix-for-inceptionresnet">
 <a class="anchor" href="#confusion-matrix-for-inceptionresnet" aria-hidden="true"><span class="octicon octicon-link"></span></a>Confusion matrix for InceptionResNet</h5>
 <p><img src="https://i.imgur.com/dQk847d.png" alt="" title="Confusion matrix for InceptionResNet"></p>
+
+<p>As we can see from the confuson matrix, class 3 (Cassava Mosaic Disease (CMD)) has the highest chance of been correctly classified. This is not surprising because the CMD leaf has severe shape distortion and mosaic patterns.</p>
+
+<p>By contrast, our model has the most difficult time with class 0 (Cassava Bacterial Blight (CBB)). Although the Cassava Bacterial Blight type has some been documented as angular spots, brown spots with yellow borders, yellow leaves, leaves wilting, those characteristics are not prominent or salient enough as features in the rest of classes. Of course, the way that the dataset was imbalanced partially contributed to the results.</p>
+
+<p>Some pictures of the two classes mentioned above are shown here:</p>
+
+<p><img src="https://i.imgur.com/Z3ppTvH.png" alt=""></p>
+
+<p><img src="https://i.imgur.com/6HElztu.png" alt=""></p>
 
 <h3 id="approach-4">
 <a class="anchor" href="#approach-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Approach 4</h3>
